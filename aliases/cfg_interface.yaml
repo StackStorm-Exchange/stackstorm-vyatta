@@ -1,0 +1,8 @@
+---
+name: "cfg_interface"
+action_ref: "vyatta.cfg_interface"
+description: Configure an interface
+formats:
+  - "(configure|cfg) interface on device {{deviceIP}}: {{intfType}} {{intfType}} {{address}}"  
+result:
+  enabled: true

@@ -1,0 +1,36 @@
+---
+name: cfg_fw_instance
+pack: vyatta
+description: Configure a FW instance
+runner_type: action-chain
+entry_point: "chains/cfg_fw_instance.yaml"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    intfNum:
+        type: string
+        description: Interface number
+        required: true
+        position: 1
+    fw_instance_name:
+        type: string
+        description: Rule-set name
+        required: true
+        position: 2
+    direction:
+        type: string
+        description: In or Out
+        required: true
+        position: 3
+        enum:
+          - in
+          - out
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

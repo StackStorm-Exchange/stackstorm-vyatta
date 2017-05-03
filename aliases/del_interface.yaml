@@ -1,0 +1,8 @@
+---
+name: "del_interface"
+action_ref: "vyatta.del_interface"
+description: Delete an interface
+formats:
+  - "(delete|del) interface on device {{deviceIP}}: {{intfType}} {{intfNum}}"  
+result:
+  enabled: true

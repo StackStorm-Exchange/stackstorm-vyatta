@@ -1,0 +1,14 @@
+{
+    "task": "cfg_fw_rule",
+    "deviceIP": "192.168.0.10",
+    "fw_instance_name": "fw-1",
+    "rule_number": "2",
+    "rule_content": {
+        "action": "accept",
+        "state": "enable",
+        "protocol": "tcp",
+        "dst_addr": "172.60.10.0/24",
+        "dst_port": "80", 
+        "src_addr": "20.20.20.0/8
+    }
+}

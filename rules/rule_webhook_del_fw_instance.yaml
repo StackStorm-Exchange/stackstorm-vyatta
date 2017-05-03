@@ -1,0 +1,20 @@
+---
+name: webhook_del_fw_instance
+pack: "vyatta"
+description: "Rule deleting a FW instance from a webhook payload"
+enabled: true
+trigger:
+  type: core.st2.webhook
+  parameters:
+    url: "vrouter"
+criteria:
+  trigger.body.task:
+    type: "contains"
+    pattern: "del_fw_instance"
+action:
+  ref: vyatta.del_fw_instance
+  parameters:
+    deviceIP: "{{trigger.body.deviceIP}}"
+    fw_instance_name: "{{trigger.body.fw_instance_name}}"
+    intfNum: "{{trigger.body.intfNum}}"
+    direction: "{{trigger.body.direction}}"

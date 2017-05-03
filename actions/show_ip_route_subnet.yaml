@@ -1,0 +1,23 @@
+---
+name: show_ip_route_subnet
+pack: vyatta
+description: Perform a "show ip route <x.x.x.x/x>"
+runner_type: python-script
+entry_point: "show_ip_route_subnet.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    subnet:
+        type: string
+        description: IP Subnet to check the route for
+        required: true
+        position: 1
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

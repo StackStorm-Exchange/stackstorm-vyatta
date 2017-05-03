@@ -1,0 +1,20 @@
+---
+name: webhook_cfg_interface
+pack: "vyatta"
+description: "Rule configuring an interface from a webhook payload"
+enabled: true
+trigger:
+  type: core.st2.webhook
+  parameters:
+    url: "vrouter"
+criteria:
+  trigger.body.task:
+    type: "contains"
+    pattern: "cfg_interface"
+action:
+  ref: vyatta.cfg_interface
+  parameters:
+    deviceIP: "{{trigger.body.deviceIP}}"
+    intfType: "{{trigger.body.intfType}}"
+    intfNum: "{{trigger.body.intfNum}}"
+    address: "{{trigger.body.address}}"

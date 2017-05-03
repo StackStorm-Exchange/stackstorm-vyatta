@@ -1,0 +1,28 @@
+---
+name: cfg_ip_route
+pack: vyatta
+description: Configure a static route
+runner_type: action-chain
+entry_point: "chains/cfg_ip_route.yaml"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    subnet:
+        type: string
+        description: Destination IP subnet
+        required: true
+        position: 1
+    nextHop:
+        type: string
+        description: NextHop IP Address
+        required: true
+        position: 2
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

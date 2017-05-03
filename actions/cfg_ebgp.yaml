@@ -1,0 +1,43 @@
+---
+name: cfg_ebgp
+pack: vyatta
+description: Configure an eBGP peering
+runner_type: mistral-v2
+entry_point: "workflows/cfg_ebgp.yaml"
+enabled: true
+parameters:
+    eastDeviceIP:
+        type: string
+        description: IP address of East vRouter
+        required: true
+        position: 0
+    eastASN:
+        type: integer
+        description: AS number of East vRouter
+        required: true
+        position: 1
+    eastPeeringIP:
+        type: string
+        description: IP address of the peering on East-end
+        required: true
+        position: 2
+    westDeviceIP:
+        type: string
+        description: IP address of West vRouter
+        required: true
+        position: 3
+    westASN:
+        type: integer
+        description: AS number of West vRouter
+        required: true
+        position: 4
+    westPeeringIP:
+        type: string
+        description: IP address of the peering on West-end
+        required: true
+        position: 5
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

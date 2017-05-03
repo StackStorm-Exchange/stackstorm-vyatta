@@ -1,0 +1,19 @@
+---
+name: webhook_cfg_ip_route
+pack: "vyatta"
+description: "Rule configuring a sta ftic route rom a webhook payload"
+enabled: true
+trigger:
+  type: core.st2.webhook
+  parameters:
+    url: "vrouter"
+criteria:
+  trigger.body.task:
+    type: "contains"
+    pattern: "cfg_ip_route"
+action:
+  ref: vyatta.cfg_ip_route
+  parameters:
+    deviceIP: "{{trigger.body.deviceIP}}"
+    subnet: "{{trigger.body.subnet}}"
+    nextHop: "{{trigger.body.nextHop}}"

@@ -1,0 +1,76 @@
+version: '2.0'
+name: vyatta.cfg_ebgp
+description: Configure an eBGP peering.
+workflows:
+    main:
+        type: direct
+        input:
+        - eastDeviceIP
+        - westDeviceIP
+        - eastPeeringIP
+        - westPeeringIP
+        - eastASN
+        - westASN
+        tasks:
+            initial:
+                action: core.local 
+                input:
+                    cmd: "echo Starting eBGP Configuratiton ..."
+                on-success:
+                    - east_start_cfg
+                    - west_start_cfg
+            east_start_cfg:
+                action: "vyatta.0_start_cfg"
+                input:
+                    deviceIP: <% $.eastDeviceIP %>
+                publish:
+                    east_cmd_path: <% task(east_start_cfg).result.stdout %> 
+                on-success:
+                    - east_cfg_ebgp
+            east_cfg_ebgp:
+                action: "vyatta.0_cfg_ebgp"
+                input:
+                    deviceIP: <% $.eastDeviceIP %>
+                    cmd_path: <% $.east_cmd_path %>
+                    neighborIP: <% $.westPeeringIP %>
+                    localAS: <% $.eastASN %>
+                    remoteAS: <% $.westASN %>
+                on-success:
+                    - east_commit
+            east_commit:
+                action: "vyatta.0_commit"
+                input:
+                    deviceIP: <% $.eastDeviceIP %>
+                    cmd_path: <% $.east_cmd_path %>
+                on-success:
+                    - finished
+            west_start_cfg:
+                action: "vyatta.0_start_cfg"
+                input:
+                    deviceIP: <% $.westDeviceIP %>
+                publish:
+                    west_cmd_path: <% task(west_start_cfg).result.stdout %> 
+                on-success:
+                    - west_cfg_ebgp
+            west_cfg_ebgp:
+                action: "vyatta.0_cfg_ebgp"
+                input:
+                    deviceIP: <% $.westDeviceIP %>
+                    cmd_path: <% $.west_cmd_path %>
+                    neighborIP: <% $.eastPeeringIP %>
+                    localAS: <% $.westASN %>
+                    remoteAS: <% $.eastASN %>
+                on-success:
+                    - west_commit
+            west_commit:
+                action: "vyatta.0_commit"
+                input:
+                    deviceIP: <% $.westDeviceIP %>
+                    cmd_path: <% $.west_cmd_path %>
+                on-success:
+                    - finished
+            finished:
+                join: all
+                action: core.local 
+                input:
+                    cmd: "echo Configuration Done ..."

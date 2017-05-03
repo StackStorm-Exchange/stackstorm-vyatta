@@ -1,0 +1,41 @@
+---
+name: 0_cfg_esp
+pack: vyatta
+description: Internal action - Configure ESP
+runner_type: python-script
+entry_point: "0_cfg_esp.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    proposal:
+        type: integer
+        description: ESP proposal
+        required: true
+    espGroup:
+        type: string
+        description: ESP Group 
+        required: true
+    encryption:
+        type: string
+        description: encryption algorithm for ESP group 
+        required: true
+    hashAlg:
+        type: string
+        description: hash algorithm for ESP group
+        required: true
+    lifetime:
+        type: integer
+        description: lifetime of the ESP group
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

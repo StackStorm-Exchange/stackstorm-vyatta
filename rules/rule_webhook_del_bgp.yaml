@@ -1,0 +1,17 @@
+---
+name: webhook_del_bgp
+pack: "vyatta"
+description: "Rule deleting BGP  from a webhook payload"
+enabled: true
+trigger:
+  type: core.st2.webhook
+  parameters:
+    url: "vrouter"
+criteria:
+  trigger.body.task:
+    type: "contains"
+    pattern: "del_bgp"
+action:
+  ref: vyatta.del_bgp
+  parameters:
+    deviceIP: "{{trigger.body.deviceIP}}"

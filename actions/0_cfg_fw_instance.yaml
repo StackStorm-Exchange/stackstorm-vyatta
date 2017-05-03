@@ -1,0 +1,36 @@
+---
+name: 0_cfg_fw_instance
+pack: vyatta
+description: Internal action - Configure a FW instance
+runner_type: python-script
+entry_point: "0_cfg_fw_instance.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    fw_instance_name:
+        type: string
+        description: Rule-set name
+        required: true
+    intfNum:
+        type: string
+        description: Interface number
+        required: true
+    direction:
+        type: string
+        description: In or Out
+        required: true
+        enum:
+            - in
+            - out
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

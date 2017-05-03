@@ -1,0 +1,8 @@
+---
+name: "cfg_ebgp"
+action_ref: "vyatta.cfg_ebgp"
+description: Configures eBGP peering
+formats:
+  - "(configure|cfg) between {{eastDeviceIP}} {{eastASN}} {{eastPeeringIP}} and {{eastDeviceIP}} {{eastASN}} {{eastPeeringIP}}"  
+result:
+  enabled: true

@@ -1,0 +1,19 @@
+---
+name: webhook_del_fw_rule
+pack: "vyatta"
+description: "Rule deleting a FW rule from a webhook payload"
+enabled: true
+trigger:
+  type: core.st2.webhook
+  parameters:
+    url: "vrouter"
+criteria:
+  trigger.body.task:
+    type: "contains"
+    pattern: "del_fw_rule"
+action:
+  ref: vyatta.del_fw_rule
+  parameters:
+    deviceIP: "{{trigger.body.deviceIP}}"
+    fw_instance_name: "{{trigger.body.fw_instance_name}}"
+    rule_number: "{{trigger.body.rule_number}}"

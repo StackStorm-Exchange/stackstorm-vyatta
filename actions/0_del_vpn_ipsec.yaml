@@ -1,0 +1,21 @@
+---
+name: 0_del_vpn_ipsec
+pack: vyatta
+description: Internal Action - Delete VPN IPSec
+runner_type: python-script
+entry_point: "0_del_vpn_ipsec.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

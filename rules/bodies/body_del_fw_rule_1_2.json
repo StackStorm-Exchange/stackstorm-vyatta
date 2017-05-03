@@ -1,0 +1,6 @@
+{
+    "task": "del_fw_rule",
+    "deviceIP": "192.168.0.10",
+    "fw_instance_name": "fw-1",
+    "rule_number": "2"
+}
