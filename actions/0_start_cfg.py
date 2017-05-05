@@ -1,7 +1,5 @@
 import requests
 import warnings
-import json
-
 from st2client.client import Client
 from st2actions.runners.pythonrunner import Action
 

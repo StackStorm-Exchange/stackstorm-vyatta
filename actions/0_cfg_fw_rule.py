@@ -1,13 +1,13 @@
 import requests
 import warnings
 import json
-
 from st2client.client import Client
 from st2actions.runners.pythonrunner import Action
 
 
 class InternalCfgFwRule(Action):
-    def run(self, deviceIP, cmd_path, fw_instance_name, rule_number, rule_content):
+    def run(self, deviceIP, cmd_path, fw_instance_name,
+            rule_number, rule_content):
 
         cmd_path = cmd_path[:26]
         rule_number = str(rule_number)

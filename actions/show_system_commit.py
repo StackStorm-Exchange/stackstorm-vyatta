@@ -51,7 +51,8 @@ class showSystemCommit(Action):
                 print "     GET             " + url
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    r2 = requests.get(url, auth=(user, pswd), headers=h, verify=False)
+                    r2 = requests.get(url, auth=(user, pswd),
+                                      headers=h, verify=False)
                     r2_code = str(r2.status_code)
                     print "     Response code:   " + r2_code
                     print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"

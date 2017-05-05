@@ -50,7 +50,8 @@ class ping(Action):
                 print "     GET             " + url
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore")
-                    r2 = requests.get(url, auth=(user, pswd), headers=h, verify=False)
+                    r2 = requests.get(url, auth=(user, pswd),
+                                      headers=h, verify=False)
                     output_response_code = str(r2.status_code)
                     print "     Response code:   " + output_response_code
                     print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"

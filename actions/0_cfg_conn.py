@@ -1,13 +1,13 @@
 import requests
 import warnings
 import json
-
 from st2client.client import Client
 from st2actions.runners.pythonrunner import Action
 
 
 class InternalCfgConn(Action):
-    def run(self, deviceIP, cmd_path, peerIP, psk, ikeGroup, espGroup, localIP, tunnelID, localPrefix, remotePrefix):
+    def run(self, deviceIP, cmd_path, peerIP, psk, ikeGroup,
+            espGroup, localIP, tunnelID, localPrefix, remotePrefix):
 
         cmd_path = cmd_path[:26]
         tunnelID = str(tunnelID)

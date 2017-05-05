@@ -1,13 +1,13 @@
 import requests
 import warnings
 import json
-
 from st2client.client import Client
 from st2actions.runners.pythonrunner import Action
 
 
 class InternalCfgIpRoute(Action):
-    def run(self, deviceIP, cmd_path, proposal, ikeGroup, ikeVersion, encryption, hashAlg, lifetime):
+    def run(self, deviceIP, cmd_path, proposal, ikeGroup,
+            ikeVersion, encryption, hashAlg, lifetime):
 
         cmd_path = cmd_path[:26]
         proposal = str(proposal)
