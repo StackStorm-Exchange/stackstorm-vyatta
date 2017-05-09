@@ -9,6 +9,6 @@
         "protocol": "tcp",
         "dst_addr": "172.60.10.0/24",
         "dst_port": "80", 
-        "src_addr": "20.20.20.0/8
+        "src_addr": "20.20.20.0/8"
     }
 }
