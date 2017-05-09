@@ -1,0 +1,25 @@
+---
+    chain:
+        -
+            name: "start_cfg"
+            ref: "vyatta.0_start_cfg"
+            parameters:
+                deviceIP: "{{deviceIP}}"
+            on-success: "0_cfg_fw_instance"
+        -
+            name: "0_cfg_fw_instance"
+            ref: "vyatta.0_cfg_fw_instance"
+            parameters:
+                deviceIP: "{{deviceIP}}"
+                cmd_path: "{{start_cfg.stdout}}"
+                intfNum: "{{intfNum}}"
+                direction: "{{direction}}"
+                fw_instance_name: "{{fw_instance_name}}"
+            on-success: "commit"
+        -
+            name: "commit"
+            ref: "vyatta.0_commit"
+            parameters:
+                deviceIP: "{{deviceIP}}"
+                cmd_path: "{{start_cfg.stdout}}"
+    default: "start_cfg"

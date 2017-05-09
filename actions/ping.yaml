@@ -1,0 +1,23 @@
+---
+name: ping
+pack: vyatta
+description: Perform a ping
+runner_type: python-script
+entry_point: "ping.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    targetIP:
+        type: string
+        description: Destination IP to ping
+        required: true
+        position: 1
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

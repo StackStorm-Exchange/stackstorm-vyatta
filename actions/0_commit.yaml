@@ -1,0 +1,22 @@
+---
+name: 0_commit
+pack: vyatta
+description: Internal action - Commit a configuration
+runner_type: python-script
+entry_point: "0_commit.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+notify:
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

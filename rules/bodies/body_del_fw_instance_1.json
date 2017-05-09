@@ -1,0 +1,7 @@
+{
+    "task": "del_fw_instance",
+    "deviceIP": "192.168.0.10",
+    "fw_instance_name": "fw-1",
+    "intfNum": "dp0p33p1",
+    "direction": "out"
+}

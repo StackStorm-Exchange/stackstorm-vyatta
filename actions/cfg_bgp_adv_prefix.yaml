@@ -1,0 +1,28 @@
+---
+name: cfg_bgp_adv_prefix
+pack: vyatta
+description: Configure advertisement of BGP prefixes
+runner_type: action-chain
+entry_point: "chains/cfg_bgp_adv_prefix.yaml"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    localAS:
+        type: integer
+        description: Local AS number
+        required: true
+        position: 1
+    prefix:
+        type: array
+        description: list of IP prefix to advertise
+        required: true
+        position: 2
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

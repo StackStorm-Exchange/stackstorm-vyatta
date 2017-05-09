@@ -1,0 +1,156 @@
+---
+name: "cfg_ipsec"
+description: "Configure IPSec Tunnel"
+pack: vyatta
+runner_type: "mistral-v2"
+entry_point: "workflows/cfg_ipsec.yaml"
+enabled: true
+parameters:
+    eastDeviceIP:
+        type: string
+        description: IP address of East vRouter
+        required: true
+        position: 0
+    eastTunnelIP:
+        type: string
+        description: IP address of the tunnel end on East vRouter
+        required: true
+        position: 1
+    eastPrefix:
+        type: string
+        description: IP Prefix of East vRouter
+        required: true
+        position: 2      
+    westDeviceIP:
+        type: string
+        description: IP address of West vRouter
+        required: true
+        position: 3
+    westTunnelIP:
+        type: string
+        description: IP address of the tunnel end on West vRouter
+        required: true
+        position: 4
+    westPrefix:
+        type: string
+        description: IP Prefix of West vRouter
+        required: true
+        position: 5
+    ikeGroup:
+        type: string
+        description: IKE Group 
+        required: true
+        default: IKE-1
+        position: 6
+    ikeProposal:
+        type: integer
+        description: Proposal of IKE Group 
+        required: true
+        default: 1
+        position: 7
+    ikeVersion:
+        type: integer
+        description: IKE version 
+        required: true
+        default: 2
+        enum:
+            - 2
+            - 1
+        position: 8
+    ikeEncryption:
+        type: string
+        description: Encryption algorithm for IKE group  
+        required: true
+        default: aes256
+        enum:
+            - aes128
+            - aes256
+            - aes128gcm128
+            - aes256gcm128
+            - 3des
+        position: 9
+    ikeHashAlg:
+        type: string
+        description: Hash algorithm for IKE group
+        required: true
+        default: sha1
+        enum:
+            - md5
+            - null
+            - sha1
+            - sha1_160
+            - sha2_256
+            - sha2_384
+            - sha2_512
+        position: 10
+    ikeLifetime:
+        type: integer
+        description: Lifetime of the IKE group
+        required: true
+        default: 3600
+        position: 11
+    espGroup:
+        type: string
+        description: IKE Group 
+        required: true
+        default: ESP-1
+        position: 12
+    espProposal:
+        type: integer
+        description: Proposal of ESP Group 
+        required: true
+        default: 1
+        position: 13
+    espEncryption:
+        type: string
+        description: Encryption algorithm for ESP group  
+        required: true
+        default: aes256
+        enum:
+            - aes128
+            - aes256
+            - aes128gcm128
+            - aes256gcm128
+            - 3des
+        position: 14
+    espHashAlg:
+        type: string
+        description: Hash algorithm for ESP group
+        required: true
+        default: sha1
+        enum:
+            - md5
+            - null
+            - sha1
+            - sha1_160
+            - sha2_256
+            - sha2_384
+            - sha2_512
+        position: 15
+    espLifetime:
+        type: integer
+        description: Lifetime of the ESP group
+        required: true
+        default: 3600
+        position: 16
+    psk:
+        type: string
+        description: Pre Shared Key
+        required: true
+        default: TheAmazingPSK
+        position: 17
+    tunnelID:
+        type: integer
+        description: Tunnel ID
+        required: true
+        default: 1
+        position: 18
+    workflow:
+        default: vyatta.cfg_ipsec.main
+        immutable: true
+        type: string
+notify:
+  on-complete:
+    message: '"@channel: Action succeeded."'
+    routes:
+      - "slack"

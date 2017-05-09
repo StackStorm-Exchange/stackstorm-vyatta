@@ -1,0 +1,8 @@
+---
+name: "show_version"
+action_ref: "vyatta.show_version"
+description: Perform a "show version"
+formats:
+  - "(show|sh) (version|ver) on {{deviceIP}}"  
+result:
+  enabled: true

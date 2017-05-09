@@ -1,0 +1,17 @@
+---
+name: 0_start_cfg
+pack: vyatta
+description: Internal action - Start a config session
+runner_type: python-script
+entry_point: "0_start_cfg.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

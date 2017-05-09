@@ -1,0 +1,53 @@
+---
+name: 0_cfg_conn
+pack: vyatta
+description: Internal action - Configure Connection
+runner_type: python-script
+entry_point: "0_cfg_conn.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    peerIP:
+        type: string
+        description: IP Address of the remote peer
+        required: true    
+    psk:
+        type: string
+        description: Pre-Shared-Key 
+        required: true
+    ikeGroup:
+        type: string
+        description: IKE Group 
+        required: true
+    espGroup:
+        type: string
+        description: ESP Group 
+        required: true
+    localIP:
+        type: string
+        description: Local IP Address 
+        required: true
+    tunnelID:
+        type: integer
+        description: Tunnel ID
+        required: true
+    localPrefix:
+        type: string
+        description: Local IP prefix for the tunnel
+        required: true
+    remotePrefix:
+        type: string
+        description: Remote IP prefix for the tunnel
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

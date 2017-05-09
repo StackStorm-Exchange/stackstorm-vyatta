@@ -1,0 +1,8 @@
+---
+name: "show_system_commit"
+action_ref: "vyatta.show_system_commit"
+description: Perform a "show system commit"
+formats:
+  - "(show|sh) (system|sys) commit on {{deviceIP}}"  
+result:
+  enabled: true

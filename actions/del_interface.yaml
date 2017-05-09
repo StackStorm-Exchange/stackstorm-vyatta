@@ -1,0 +1,38 @@
+---
+name: del_interface
+pack: vyatta
+description: Delete an interface
+runner_type: action-chain
+entry_point: "chains/del_interface.yaml"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    intfType:
+        type: string
+        description: Type of interface such as dataplane or loopback
+        required: true
+        enum:
+            - bonding
+            - bridge
+            - dataplane
+            - erspan
+            - l2tpeth 
+            - loopback
+            - openvpn
+            - tunnel
+            - vti
+        position: 1
+    intfNum:
+        type: string
+        description: Interface number
+        required: true
+        position: 2
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

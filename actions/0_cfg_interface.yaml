@@ -1,0 +1,33 @@
+---
+name: 0_cfg_interface
+pack: vyatta
+description: Internal action - Configure an interface
+runner_type: python-script
+entry_point: "0_cfg_interface.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    intfType:
+        type: string
+        description: Type of interface such as dataplane or loopback
+        required: true
+    intfNum:
+        type: string
+        description: Interface number
+        required: true
+    address:
+        type: string
+        description: IP Address
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

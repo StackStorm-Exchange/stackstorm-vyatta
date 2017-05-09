@@ -1,0 +1,18 @@
+---
+name: show_system_commit
+pack: vyatta
+description: Perform a "show system commit"
+runner_type: python-script
+entry_point: "show_system_commit.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

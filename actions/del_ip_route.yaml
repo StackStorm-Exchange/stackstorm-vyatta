@@ -1,0 +1,23 @@
+---
+name: del_ip_route
+pack: vyatta
+description: Delete a static route
+runner_type: action-chain
+entry_point: "chains/del_ip_route.yaml"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+        position: 0
+    subnet:
+        type: string
+        description: Destination IP subnet
+        required: true
+        position: 1
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

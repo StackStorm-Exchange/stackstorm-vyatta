@@ -1,0 +1,8 @@
+---
+name: "show_bgp_neighbors"
+action_ref: "vyatta.show_bgp_neighbors"
+description: Perform a "show ip bgp neighbors"
+formats:
+  - "(show|sh) bgp (neighbors|nei) on {{deviceIP}}"  
+result:
+  enabled: true

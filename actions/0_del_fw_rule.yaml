@@ -1,0 +1,29 @@
+---
+name: 0_del_fw_rule
+pack: vyatta
+description: Internal action - Delete a FW rule
+runner_type: python-script
+entry_point: "0_del_fw_rule.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    fw_instance_name:
+        type: string
+        description: Rule-set name
+        required: true
+    rule_number:
+        type: integer
+        description: Rule number
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"

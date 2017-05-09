@@ -1,0 +1,45 @@
+---
+name: 0_cfg_ike
+pack: vyatta
+description: Internal action - Configure IKE
+runner_type: python-script
+entry_point: "0_cfg_ike.py"
+enabled: true
+parameters:
+    deviceIP:
+        type: string
+        description: IP address of vRouter
+        required: true
+    cmd_path:
+        type: string
+        description: configuration session token
+        required: true
+    proposal:
+        type: integer
+        description: IKE proposal
+        required: true
+    ikeGroup:
+        type: string
+        description: IKE Group 
+        required: true
+    ikeVersion:
+        type: integer
+        description: IKE version 
+        required: true
+    encryption:
+        type: string
+        description: encryption algorithm for IKE group 
+        required: true
+    hashAlg:
+        type: string
+        description: hash algorithm for IKE group
+        required: true
+    lifetime:
+        type: integer
+        description: lifetime of the IKE group
+        required: true
+notify:
+  on-complete:
+    message: "\"@channel: Action succeeded.\""
+    routes:
+      - "slack"
