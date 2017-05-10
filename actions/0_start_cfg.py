@@ -11,15 +11,10 @@ class sstartCfg(Action):
         #################################################################
         user_key_name = deviceIP + "_user"
         pswd_key_name = deviceIP + "_pswd"
-        print "\n"
-        print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        print "Looking for credentials in KV store"
         client = Client()
         try:
             user = (client.keys.get_by_name(user_key_name)).value
             pswd = (client.keys.get_by_name(pswd_key_name)).value
-            print "     Obtained from KV store: user = " + user
-            print "     Obtained from KV store: pswd = " + pswd
         except:
             return (False, "No credentials for : " + deviceIP)
 

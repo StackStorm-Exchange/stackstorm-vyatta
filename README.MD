@@ -99,7 +99,7 @@ st2 run vyatta.show_ip_bgp_sum deviceIP=192.168.0.10
 
 st2 run vyatta.show_ip_bgp_neighbors deviceIP=192.168.0.10
 
-st2 run vyatta.adv_bgp_adv_prefix deviceIP=192.168.0.10 localAS=65010 prefix="10.10.10.0/24","20.20.20.0/24","30.30.30.0/24"
+st2 run vyatta.cfg_bgp_adv_prefix deviceIP=192.168.0.10 localAS=65010 prefix="10.10.10.0/24","20.20.20.0/24","30.30.30.0/24"
 
 st2 run vyatta.del_bgp_adv_prefix deviceIP=192.168.0.10 localAS=65010 prefix="10.10.10.0/24","30.30.30.0/24"
 
