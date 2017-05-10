@@ -34,7 +34,7 @@ class InternalDelFwInstance(Action):
         }
 
         url_0 = "https://" + deviceIP + "/" + cmd_path
-        url_1 = "/delete/interfaces/dataplane/" + intfNum
+        url_1 = "/delete/interfaces/dataplane/" + intfNum + "/firewall/"
         url_2 = direction + "/" + fw_instance_name
         url = url_0 + url_1 + url_2
 
