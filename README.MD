@@ -15,27 +15,9 @@
 	- [Documentation](https://docs.stackstorm.com/overview.html) 
 	- [Video-StackStorm-101](https://www.youtube.com/watch?v=CwEzO_f-q3s&t=907s)
 
-## How to install this pack:
-- Go to the packs directory in your StackStorm/BWC machine and Git clone this reposistory.
-- Rename the folder to ```vyatta```
-- Install python virtual Environement
-- Restart st2ctl service to register the actions/rules/etc...
-
-```
-cd /opt/stackstorm/packs
-sudo git clone https://github.com/mab27/st2_vyatta.git
-sudo cp -r st2_vyatta vyatta
-sudo rm -r st2_vyatta
-sudo cd vyatta
-sudo st2 run packs.setup_virtualenv packs=vyatta
-```
-- Restart and check if the actions have been registered:
-```
-sudo st2ctl restart
-st2 action list -p vyatta
-```
 ## Before using the pack:
 - Save the vyatta router credentials in the K/V store. You can do that via the cli command ```st2 key set``` or using the action from the ```st2``` pack.
+- Below an example for two vyatta devices, with ip addresses 192.168.0.10 and 192.168.0.20.
 ```
 st2 run st2.kv.set key=192.168.0.10_user value=vyatta 
 st2 run st2.kv.set key=192.168.0.20_user value=vyatta 
