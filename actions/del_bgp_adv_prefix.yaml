@@ -15,12 +15,12 @@ parameters:
         type: integer
         description: Local AS number
         required: true
-        position: 0 
+        position: 1
     prefix:
         type: array
         description: list of IP prefix to advertise
         required: true
-        position: 1
+        position: 2
 notify:
   on-complete:
     message: "\"@channel: Action succeeded.\""
