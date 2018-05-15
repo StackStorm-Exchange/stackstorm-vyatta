@@ -20,7 +20,7 @@ class showInterfaces(Action):
             pswd = (client.keys.get_by_name(pswd_key_name)).value
             print "     Obtained from KV store: user = " + user
             print "     Obtained from KV store: pswd = " + pswd
-        except:
+        except Exception:
             return (False, "No credentials for : " + deviceIP)
 
         # Preapring the URL request(s)
@@ -63,5 +63,5 @@ class showInterfaces(Action):
                         try:
                             print "\n"
                             print r2.text
-                        except:
+                        except Exception:
                             print "     Response body: empty"

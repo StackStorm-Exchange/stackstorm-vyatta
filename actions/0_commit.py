@@ -23,7 +23,7 @@ class commit(Action):
             pswd = (client.keys.get_by_name(pswd_key_name)).value
             print "     Obtained from KV store: user = " + user
             print "     Obtained from KV store: pswd = " + pswd
-        except:
+        except Exception:
             return (False, "No credentials for : " + deviceIP)
 
         # Preapring the URL request(s)
@@ -53,7 +53,7 @@ class commit(Action):
                     print json.dumps(data, sort_keys=True, indent=4)
                     return True, data
                     print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-                except:
+                except Exception:
                     print "     Response body is empty"
                     print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
             else:
