@@ -1,9 +1,9 @@
 ---
 name: vyatta
-description: A StackStorm pack for working with vyatta vRouter
+description: vyatta vRouter
 keywords:
     - networking
     - vyatta
-version: 0.1.2
+version: 0.1.3
 author: Mehdi Abdelouahab 
 email: mabdelou@brocade.com

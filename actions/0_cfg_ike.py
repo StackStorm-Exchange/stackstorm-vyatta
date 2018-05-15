@@ -27,7 +27,7 @@ class InternalCfgIpRoute(Action):
             pswd = (client.keys.get_by_name(pswd_key_name)).value
             print "     Obtained from KV store: user = " + user
             print "     Obtained from KV store: pswd = " + pswd
-        except:
+        except Exception:
             return (False, "No credentials for : " + deviceIP)
 
         # Preapring the URL request(s)
@@ -76,6 +76,6 @@ class InternalCfgIpRoute(Action):
                         data = json.loads(r.text)
                         print "     Response body: "
                         print json.dumps(data, sort_keys=True, indent=4)
-                    except:
+                    except Exception:
                         print "     Response body: empty"
         print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"

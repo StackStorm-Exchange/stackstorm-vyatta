@@ -15,7 +15,7 @@ class sstartCfg(Action):
         try:
             user = (client.keys.get_by_name(user_key_name)).value
             pswd = (client.keys.get_by_name(pswd_key_name)).value
-        except:
+        except Exception:
             return (False, "No credentials for : " + deviceIP)
 
         # Preapring the URL request(s)
