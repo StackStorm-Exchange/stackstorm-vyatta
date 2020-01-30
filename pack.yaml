@@ -2,8 +2,8 @@
 name: vyatta
 description: vyatta vRouter
 keywords:
-    - networking
-    - vyatta
+  - networking
+  - vyatta
 version: 0.1.3
 author: Mehdi Abdelouahab 
 email: mabdelou@brocade.com
