@@ -18,15 +18,15 @@ class InternalCfgIpRoute(Action):
         #################################################################
         user_key_name = deviceIP + "_user"
         pswd_key_name = deviceIP + "_pswd"
-        print "\n"
-        print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        print "Looking for credentials in KV store"
+        print("\n")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("Looking for credentials in KV store")
         client = Client()
         try:
             user = (client.keys.get_by_name(user_key_name)).value
             pswd = (client.keys.get_by_name(pswd_key_name)).value
-            print "     Obtained from KV store: user = " + user
-            print "     Obtained from KV store: pswd = " + pswd
+            print("     Obtained from KV store: user = " + user)
+            print("     Obtained from KV store: pswd = " + pswd)
         except Exception:
             return (False, "No credentials for : " + deviceIP)
 
@@ -60,22 +60,22 @@ class InternalCfgIpRoute(Action):
 
         # Sending the URL call(s)
         #################################################################
-        print "Sending REST call(s):"
+        print("Sending REST call(s):")
         for u in url_list:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                print "     PUT            " + u
+                print("     PUT            " + u)
                 r = requests.put(u, auth=(user, pswd), headers=h, verify=False)
                 r_code = str(r.status_code)
-                print "     Response code:   " + r_code
+                print("     Response code:   " + r_code)
                 cmd_response_code = int(r.status_code)
                 if cmd_response_code != 200:
                     return (False, cmd_response_code)
                 else:
                     try:
                         data = json.loads(r.text)
-                        print "     Response body: "
-                        print json.dumps(data, sort_keys=True, indent=4)
+                        print("     Response body: ")
+                        print(json.dumps(data, sort_keys=True, indent=4))
                     except Exception:
-                        print "     Response body: empty"
-        print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+                        print("     Response body: empty")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")

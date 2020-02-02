@@ -37,6 +37,6 @@ class sstartCfg(Action):
                 cmd_path = r.headers["Location"]
                 cmd_path = cmd_path[0:26]
                 cmd_path = str(cmd_path)
-                print cmd_path[0:26]
+                print(cmd_path[0:26])
             else:
                 return (False, "Failed!")
