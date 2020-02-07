@@ -14,15 +14,15 @@ class commit(Action):
         #################################################################
         user_key_name = deviceIP + "_user"
         pswd_key_name = deviceIP + "_pswd"
-        print "\n"
-        print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
-        print "Looking for credentials in KV store"
+        print("\n")
+        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        print("Looking for credentials in KV store")
         client = Client()
         try:
             user = (client.keys.get_by_name(user_key_name)).value
             pswd = (client.keys.get_by_name(pswd_key_name)).value
-            print "     Obtained from KV store: user = " + user
-            print "     Obtained from KV store: pswd = " + pswd
+            print("     Obtained from KV store: user = " + user)
+            print("     Obtained from KV store: pswd = " + pswd)
         except Exception:
             return (False, "No credentials for : " + deviceIP)
 
@@ -38,23 +38,23 @@ class commit(Action):
 
         # Sending the URL call(s)
         #################################################################
-        print "Sending REST call(s):"
-        print "     POST            " + url
+        print("Sending REST call(s):")
+        print("     POST            " + url)
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             r = requests.post(url, auth=(user, pswd), headers=h, verify=False)
             r_code = str(r.status_code)
-            print "     Response code:   " + r_code
+            print("     Response code:   " + r_code)
 
             if r.status_code == 200:
                 try:
                     data = json.loads(r.text)
-                    print "     Response body: "
-                    print json.dumps(data, sort_keys=True, indent=4)
+                    print("     Response body: ")
+                    print(json.dumps(data, sort_keys=True, indent=4))
                     return True, data
-                    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+                    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 except Exception:
-                    print "     Response body is empty"
-                    print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+                    print("     Response body is empty")
+                    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
             else:
                 return (False, "Failed!")
