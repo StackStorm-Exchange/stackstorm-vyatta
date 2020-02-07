@@ -4,7 +4,7 @@ description: vyatta vRouter
 keywords:
   - networking
   - vyatta
-version: 0.1.3
+version: 0.1.4
 author: Mehdi Abdelouahab 
 email: mabdelou@brocade.com
 python_versions:
