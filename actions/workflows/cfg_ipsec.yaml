@@ -1,151 +1,170 @@
-version: '2.0'
-name: vyatta.cfg_ipsec
+---
+version: '1.0'
 description: Configure IPSec tunnel.
-workflows:
-    main:
-        type: direct
-        input:
-            - eastDeviceIP
-            - eastTunnelIP
-            - eastPrefix
-            - westDeviceIP
-            - westTunnelIP
-            - westPrefix
-            - ikeGroup
-            - ikeProposal
-            - ikeVersion
-            - ikeEncryption
-            - ikeHashAlg
-            - ikeLifetime
-            - espGroup
-            - espProposal
-            - espEncryption
-            - espHashAlg
-            - espLifetime
-            - psk
-            - tunnelID
-        output:
-            stdout: <% $.stdout %>
-        tasks:
-            initial:
-                action: core.local 
-                input:
-                    cmd: "echo Starting IPSec Configuratiton ..."
-                on-success:
-                    - east_start_cfg
-                    - west_start_cfg
-            east_start_cfg:
-                action: "vyatta.0_start_cfg"
-                input:
-                    deviceIP: <% $.eastDeviceIP %>
-                publish:
-                    east_cmd_path: <% task(east_start_cfg).result.stdout %>
-                on-success:
-                    - east_cfg_ike
-            east_cfg_ike:
-                action: "vyatta.0_cfg_ike"
-                input:
-                    deviceIP: <% $.eastDeviceIP %>
-                    cmd_path: <% $.east_cmd_path %>
-                    ikeGroup: <% $.ikeGroup %>
-                    proposal: <% $.ikeProposal %>
-                    ikeVersion: <% $.ikeVersion %>
-                    encryption: <% $.ikeEncryption %>
-                    hashAlg: <% $.ikeHashAlg %>
-                    lifetime: <% $.ikeLifetime %>
-                on-success:
-                    - east_cfg_esp
-            east_cfg_esp:
-                action: "vyatta.0_cfg_esp"
-                input:
-                    deviceIP: <% $.eastDeviceIP %>
-                    cmd_path: <% $.east_cmd_path %>
-                    espGroup: <% $.espGroup %>
-                    proposal: <% $.espProposal %>
-                    encryption: <% $.espEncryption %>
-                    hashAlg: <% $.espHashAlg %>
-                    lifetime: <% $.espLifetime %>
-                on-success:
-                    - east_cfg_conn
-            east_cfg_conn:
-                action: "vyatta.0_cfg_conn"
-                input:
-                    deviceIP: <% $.eastDeviceIP %>
-                    cmd_path: <% $.east_cmd_path %>
-                    peerIP: <% $.westTunnelIP %>
-                    psk: <% $.psk %>
-                    ikeGroup: <% $.ikeGroup %>
-                    espGroup: <% $.espGroup %>
-                    localIP: <% $.eastTunnelIP %>
-                    tunnelID: <% $.tunnelID %>
-                    localPrefix: <% $.eastPrefix %>
-                    remotePrefix: <% $.westPrefix %>
-                on-success:
-                    - east_commit
-            east_commit:
-                action: "vyatta.0_commit"
-                input:
-                    deviceIP: <% $.eastDeviceIP %>
-                    cmd_path: <% $.east_cmd_path %>
-                on-success:
-                    - finished
-            west_start_cfg:
-                action: "vyatta.0_start_cfg"
-                input:
-                    deviceIP: <% $.westDeviceIP %>
-                publish:
-                    west_cmd_path: <% task(west_start_cfg).result.stdout %>
-                on-success:
-                    - west_cfg_ike 
-            west_cfg_ike:
-                action: "vyatta.0_cfg_ike"
-                input:
-                    deviceIP: <% $.westDeviceIP %>
-                    cmd_path: <% $.west_cmd_path %>
-                    ikeGroup: <% $.ikeGroup %>
-                    proposal: <% $.ikeProposal %>
-                    ikeVersion: <% $.ikeVersion %>
-                    encryption: <% $.ikeEncryption %>
-                    hashAlg: <% $.ikeHashAlg %>
-                    lifetime: <% $.ikeLifetime %>
-                on-success:
-                    - west_cfg_esp 
-            west_cfg_esp:
-                action: "vyatta.0_cfg_esp"
-                input:
-                    deviceIP: <% $.westDeviceIP %>
-                    cmd_path: <% $.west_cmd_path %>
-                    espGroup: <% $.espGroup %>
-                    proposal: <% $.espProposal %>
-                    encryption: <% $.espEncryption %>
-                    hashAlg: <% $.espHashAlg %>
-                    lifetime: <% $.espLifetime %>
-                on-success:
-                    - west_cfg_conn
-            west_cfg_conn:
-                action: "vyatta.0_cfg_conn"
-                input:
-                    deviceIP: <% $.westDeviceIP %>
-                    cmd_path: <% $.west_cmd_path %>
-                    peerIP: <% $.eastTunnelIP %>
-                    psk: <% $.psk %>
-                    ikeGroup: <% $.ikeGroup %>
-                    espGroup: <% $.espGroup %>
-                    localIP: <% $.westTunnelIP %>
-                    tunnelID: <% $.tunnelID %>
-                    localPrefix: <% $.westPrefix %>
-                    remotePrefix: <% $.eastPrefix %>
-                on-success:
-                    - west_commit 
-            west_commit:
-                action: "vyatta.0_commit"
-                input:
-                    deviceIP: <% $.westDeviceIP %>
-                    cmd_path: <% $.west_cmd_path %>
-                on-success:
-                    - finished
-            finished:
-                join: all
-                action: core.local 
-                input:
-                    cmd: "echo Configuration Done ..."
+input:
+  - eastDeviceIP
+  - eastTunnelIP
+  - eastPrefix
+  - westDeviceIP
+  - westTunnelIP
+  - westPrefix
+  - ikeGroup
+  - ikeProposal
+  - ikeVersion
+  - ikeEncryption
+  - ikeHashAlg
+  - ikeLifetime
+  - espGroup
+  - espProposal
+  - espEncryption
+  - espHashAlg
+  - espLifetime
+  - psk
+  - tunnelID
+output:
+  - stdout: <% ctx().stdout %>
+tasks:
+  initial:
+    action: core.local
+    input:
+      cmd: echo Starting IPSec Configuratiton ...
+    next:
+      - when: <% succeeded() %>
+        do:
+          - east_start_cfg
+          - west_start_cfg
+  east_start_cfg:
+    action: vyatta.0_start_cfg
+    input:
+      deviceIP: <% ctx().eastDeviceIP %>
+    next:
+      - when: <% succeeded() %>
+        publish:
+          - east_cmd_path: <% result().stdout %>
+        do:
+          - east_cfg_ike
+  east_cfg_ike:
+    action: vyatta.0_cfg_ike
+    input:
+      deviceIP: <% ctx().eastDeviceIP %>
+      cmd_path: <% ctx().east_cmd_path %>
+      ikeGroup: <% ctx().ikeGroup %>
+      proposal: <% ctx().ikeProposal %>
+      ikeVersion: <% ctx().ikeVersion %>
+      encryption: <% ctx().ikeEncryption %>
+      hashAlg: <% ctx().ikeHashAlg %>
+      lifetime: <% ctx().ikeLifetime %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - east_cfg_esp
+  east_cfg_esp:
+    action: vyatta.0_cfg_esp
+    input:
+      deviceIP: <% ctx().eastDeviceIP %>
+      cmd_path: <% ctx().east_cmd_path %>
+      espGroup: <% ctx().espGroup %>
+      proposal: <% ctx().espProposal %>
+      encryption: <% ctx().espEncryption %>
+      hashAlg: <% ctx().espHashAlg %>
+      lifetime: <% ctx().espLifetime %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - east_cfg_conn
+  east_cfg_conn:
+    action: vyatta.0_cfg_conn
+    input:
+      deviceIP: <% ctx().eastDeviceIP %>
+      cmd_path: <% ctx().east_cmd_path %>
+      peerIP: <% ctx().westTunnelIP %>
+      psk: <% ctx().psk %>
+      ikeGroup: <% ctx().ikeGroup %>
+      espGroup: <% ctx().espGroup %>
+      localIP: <% ctx().eastTunnelIP %>
+      tunnelID: <% ctx().tunnelID %>
+      localPrefix: <% ctx().eastPrefix %>
+      remotePrefix: <% ctx().westPrefix %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - east_commit
+  east_commit:
+    action: vyatta.0_commit
+    input:
+      deviceIP: <% ctx().eastDeviceIP %>
+      cmd_path: <% ctx().east_cmd_path %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - finished
+  west_start_cfg:
+    action: vyatta.0_start_cfg
+    input:
+      deviceIP: <% ctx().westDeviceIP %>
+    next:
+      - when: <% succeeded() %>
+        publish:
+          - west_cmd_path: <% result().stdout %>
+        do:
+          - west_cfg_ike
+  west_cfg_ike:
+    action: vyatta.0_cfg_ike
+    input:
+      deviceIP: <% ctx().westDeviceIP %>
+      cmd_path: <% ctx().west_cmd_path %>
+      ikeGroup: <% ctx().ikeGroup %>
+      proposal: <% ctx().ikeProposal %>
+      ikeVersion: <% ctx().ikeVersion %>
+      encryption: <% ctx().ikeEncryption %>
+      hashAlg: <% ctx().ikeHashAlg %>
+      lifetime: <% ctx().ikeLifetime %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - west_cfg_esp
+  west_cfg_esp:
+    action: vyatta.0_cfg_esp
+    input:
+      deviceIP: <% ctx().westDeviceIP %>
+      cmd_path: <% ctx().west_cmd_path %>
+      espGroup: <% ctx().espGroup %>
+      proposal: <% ctx().espProposal %>
+      encryption: <% ctx().espEncryption %>
+      hashAlg: <% ctx().espHashAlg %>
+      lifetime: <% ctx().espLifetime %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - west_cfg_conn
+  west_cfg_conn:
+    action: vyatta.0_cfg_conn
+    input:
+      deviceIP: <% ctx().westDeviceIP %>
+      cmd_path: <% ctx().west_cmd_path %>
+      peerIP: <% ctx().eastTunnelIP %>
+      psk: <% ctx().psk %>
+      ikeGroup: <% ctx().ikeGroup %>
+      espGroup: <% ctx().espGroup %>
+      localIP: <% ctx().westTunnelIP %>
+      tunnelID: <% ctx().tunnelID %>
+      localPrefix: <% ctx().westPrefix %>
+      remotePrefix: <% ctx().eastPrefix %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - west_commit
+  west_commit:
+    action: vyatta.0_commit
+    input:
+      deviceIP: <% ctx().westDeviceIP %>
+      cmd_path: <% ctx().west_cmd_path %>
+    next:
+      - when: <% succeeded() %>
+        do:
+          - finished
+  finished:
+    action: core.local
+    join: all
+    input:
+      cmd: echo Configuration Done ...
