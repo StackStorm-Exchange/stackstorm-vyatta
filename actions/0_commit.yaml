@@ -15,7 +15,6 @@ parameters:
         description: configuration session token
         required: true
 notify:
-notify:
   on-complete:
     message: "\"@channel: Action succeeded.\""
     routes:
